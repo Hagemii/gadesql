@@ -1,0 +1,15 @@
+Collecting perin-parser
+  Downloading perin_parser-0.0.12.tar.gz (238 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 238.3/238.3 kB 1.2 MB/s eta 0:00:00
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: scipy in /opt/conda/lib/python3.7/site-packages (from perin-parser) (1.4.1)
+Requirement already satisfied: numpy>=1.13.3 in /opt/conda/lib/python3.7/site-packages (from scipy->perin-parser) (1.19.5)
+Building wheels for collected packages: perin-parser
+  Building wheel for perin-parser (setup.py): started
+  Building wheel for perin-parser (setup.py): finished with status 'done'
+  Created wheel for perin-parser: filename=perin_parser-0.0.12-py3-none-any.whl size=316622 sha256=93aeb229803df34253ccc90a360161c47ed6738effda08b38173e69c98c9dfb0
+  Stored in directory: /root/.cache/pip/wheels/12/a8/8a/636192cf8379a68e2b5d7547c6e332da9c24c97cdef84b5935
+Successfully built perin-parser
+Installing collected packages: perin-parser
+Successfully installed perin-parser-0.0.12
