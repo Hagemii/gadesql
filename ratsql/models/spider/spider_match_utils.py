@@ -138,14 +138,14 @@ def compute_cell_value_linking(tokens, schema):
     cv_link = {"num_date_match": num_date_match, "cell_match": cell_match}
     return cv_link
 
-def generate_question_syntax_tree(question):
-    def get_sdp(question):
-        cmd = ['python', '/data/ratsql/rat-sql/sdp_tree/sdp.py', question]
-        output_bytes = subprocess.check_output(cmd)
-        output_str = output_bytes.decode('utf-8').strip()
-        output_dict = eval(output_str)
-        return output_dict
+# def generate_question_syntax_tree(question):
+#     def get_sdp(question):
+#         cmd = ['python', '/data/ratsql/rat-sql/sdp_tree/sdp.py', question]
+#         output_bytes = subprocess.check_output(cmd)
+#         output_str = output_bytes.decode('utf-8').strip()
+#         output_dict = eval(output_str)
+#         return output_dict
     
-    doc = get_sdp(question)
-    tree_link = {"sdp_tree": doc}
-    return tree_link
+#     doc = get_sdp(question)
+#     tree_link = {"sdp_tree": doc}
+#     return tree_link

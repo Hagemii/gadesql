@@ -653,7 +653,7 @@ class RelationalTransformerUpdate(torch.nn.Module):
     def compute_relations(self, desc, enc_length, q_enc_length, c_enc_length, c_boundaries, t_boundaries):
         sc_link = desc.get('sc_link', {'q_col_match': {}, 'q_tab_match': {}})
         cv_link = desc.get('cv_link', {'num_date_match': {}, 'cell_match': {}})
-        tree_link = desc.get('tree_link',{'sdp_tree':{}})
+ #       tree_link = desc.get('tree_link',{'sdp_tree':{}})
 
         # Catalogue which things are where
         loc_types = {}
@@ -677,11 +677,12 @@ class RelationalTransformerUpdate(torch.nn.Module):
 
             i_type, j_type = loc_types[i], loc_types[j]
             if i_type[0] == 'question':
-                if j_type[0] == 'question':
-                    set_relation(('qq_dist', clamp(j - i, self.qq_max_dist)))
-                    if f"{i},{j}" in tree_link["sdp_tree"]:
-                        set_relation("qq" + tree_link["sdp_tree"][f"{i},{j}"])
-                elif j_type[0] == 'column':
+                # if j_type[0] == 'question':
+                #     set_relation(('qq_dist', clamp(j - i, self.qq_max_dist)))
+                #     if f"{i},{j}" in tree_link["sdp_tree"]:
+                #         set_relation("qq" + tree_link["sdp_tree"][f"{i},{j}"])
+                # el
+                if j_type[0] == 'column':
                     # set_relation('qc_default')
                     j_real = j - c_base
                     if f"{i},{j_real}" in sc_link["q_col_match"]:
