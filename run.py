@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import os
 
 import argparse
 import json
@@ -19,7 +18,6 @@ class TrainConfig:
     config = attr.ib()
     config_args = attr.ib()
     logdir = attr.ib()
-
 
 
 @attr.s
@@ -48,38 +46,12 @@ class EvalConfig:
 
 
 def main():
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('mode', help="preprocess/train/eval", choices=["preprocess", "train", "eval"])
-    # parser.add_argument('exp_config_file', help="jsonnet file for experiments")
-    # parser.add_argument('--model_config_args', help="optional overrides for model config args")
-    # parser.add_argument('--logdir', help="optional override for logdir")
-    # args = parser.parse_args()
-   
-    mode = "train"
-    exp_config_file = "/data/ratsql/rat-sql/experiments/spider-bert-run.jsonnet"
-    model_config_args = None
-    logdir = None
-
     parser = argparse.ArgumentParser()
-    parser.add_argument('--mode', help="preprocess/train/eval", choices=["preprocess", "train", "eval"])
-    parser.add_argument('--exp_config_file', help="jsonnet file for experiments")
+    parser.add_argument('mode', help="preprocess/train/eval", choices=["preprocess", "train", "eval"])
+    parser.add_argument('exp_config_file', help="jsonnet file for experiments")
     parser.add_argument('--model_config_args', help="optional overrides for model config args")
     parser.add_argument('--logdir', help="optional override for logdir")
-
-    args = parser.parse_args(["--mode", mode, "--exp_config_file", exp_config_file, 
-                        "--model_config_args", model_config_args, "--logdir", logdir])
-
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('mode', help="preprocess/train/eval", choices=["preprocess", "train", "eval"])
-    # parser.add_argument('exp_config_file', help="jsonnet file for experiments")
-    # parser.add_argument('--model_config_args', help="optional overrides for model config args")
-    # parser.add_argument('--logdir', help="optional override for logdir")
-    # args = parser.parse_args()
-   
-    
-    print("@@@@@@@@")
-    print(args)
-    print("@@@@@@@@")
+    args = parser.parse_args()
 
     exp_config = json.loads(_jsonnet.evaluate_file(args.exp_config_file))
     model_config_file = exp_config["model_config"]
@@ -97,17 +69,14 @@ def main():
     logdir = args.logdir or exp_config["logdir"]
 
     if args.mode == "preprocess":
-        preprocess_config = PreprocessConfig(model_config_file, model_config_args) 
+        preprocess_config = PreprocessConfig(model_config_file, model_config_args)
         preprocess.main(preprocess_config)
     elif args.mode == "train":
-        train_config = TrainConfig(model_config_file, 
+        train_config = TrainConfig(model_config_file,
                                    model_config_args, logdir)
         train.main(train_config)
     elif args.mode == "eval":
         for step in exp_config["eval_steps"]:
-            
-            real_logdir = "/data/ratsql/rat-sql/logdir/bert_run_base/bs=6,lr=7.4e-04,bert_lr=3.0e-06,end_lr=0e0,att=1/"
-        
             infer_output_path = f"{exp_config['eval_output']}/{exp_config['eval_name']}-step{step}.infer"
             infer_config = InferConfig(
                 model_config_file,
@@ -132,8 +101,7 @@ def main():
             )
             eval.main(eval_config)
 
-            output_path = eval_output_path.replace('__LOGDIR__', real_logdir)   
-            res_json = json.load(open(output_path))
+            res_json = json.load(open(eval_output_path))
             print(step, res_json['total_scores']['all']['exact'])
 
 
